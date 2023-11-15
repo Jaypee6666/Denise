@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Chat</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            background-color: #f7f7f7;
+            color: #333;
+            margin: 50px;
+        }
+
+        h1 {
+            color: #009688;
+        }
+
+        #chat-container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            overflow-y: auto;
+            height: 300px;
+        }
+
+        .user-message {
+            background-color: #009688;
+            color: #fff;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+            max-width: 70%;
+            word-wrap: break-word;
+        }
+
+        .bot-message {
+            background-color: #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+            max-width: 70%;
+            word-wrap: break-word;
+        }
+
+        #messageInput {
+            width: 60%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        #sendButton {
+            background-color: #009688;
+            color: #fff;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        audio {
+            display: none; /* hide the audio player */
+        }
+    </style>
+</head>
+<body>
+    <h1>Hello ganda!!</h1>
+    <div id="chat-container"></div>
+    <input type="text" id="messageInput" placeholder="Type your message...">
+    <button id="sendButton" onclick="sendMessage()">Send</button>
+
+    <audio id="backgroundMusic" loop>
+        <source src="your_background_music.mp3" type="audio/mp3">
+        Your browser does not support the audio tag.
+    </audio>
+
+    <script>
+        const botResponses = {
+            greeting: ["Hello!", "Hi there!", "Greetings!", "Hey!"],
+            compliments: [
+                "You're amazing!",
+                "Your smile brightens my day!",
+                "You're the best!",
+                "I appreciate you!",
+                "You have a heart of gold!",
+                "You're a ray of sunshine!",
+                "Your positive energy is contagious!",
+                "You inspire others with your kindness!",
+                "You're so strong and resilient!",
+                "Your presence makes a difference!",
+                "Sexy ka wag ka maniniwala sa mga bitch na peke",
+                "ganda ganda mo nanggigigil ako sayo ^_^",
+            ],
+            gratitude: [
+                "Thank you!",
+                "I'm grateful for you!",
+                "Appreciate your kindness!",
+            ],
+            badMood: [
+                "I know it's tough right now, but remember, storms don't last forever. You're resilient and capable of overcoming any challenge. I believe in you! 🌈 I-chat mo nalang si Jp siya magpapasaya sayo",
+                "In the darkest moments, look for the stars. Your strength and light shine even in difficult times. Things will get better. ✨ I-chat mo nalang si Jp siya magpapasaya sayo",
+                "Chin up, beautiful! Tough times don't last, but tough people do. You've got the strength to get through anything. 💪 I-chat mo nalang si Jp siya magpapasaya sayo",
+                "You're not alone in this journey. Lean on the people who care about you, and together, we'll find the sunshine behind the clouds. ☀️ I-chat mo nalang si Jp siya magpapasaya sayo",
+                "Sending you a warm hug! Remember, every cloud has a silver lining. What's something positive you're looking forward to? 🤗 I-chat mo nalang si Jp siya magpapasaya sayo",
+            ],
+            rant: ["Isumbong mo kay Jp, siya bahala sayo ☺."],
+            default: ["I'm not sure what you mean...", "Let's talk about positivity!"],
+        };
+
+        function getRandomBotResponse(category) {
+            const responses = botResponses[category] || botResponses.default;
+            const randomIndex = Math.floor(Math.random() * responses.length);
+            return responses[randomIndex];
+        }
+
+        function displayBotMessage(message) {
+            const chatContainer = document.getElementById('chat-container');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'bot-message';
+            messageDiv.textContent = message;
+            chatContainer.appendChild(messageDiv);
+        }
+
+        function displayUserMessage(message) {
+            const chatContainer = document.getElementById('chat-container');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'user-message';
+            messageDiv.textContent = message;
+            chatContainer.appendChild(messageDiv);
+
+            // After displaying the user's message, simulate bot reply
+            setTimeout(() => {
+                const botReply = getBotReply(message);
+                displayBotMessage(botReply);
+            }, 500);
+        }
+
+        function getBotReply(userInput) {
+            const lowerCaseInput = userInput.toLowerCase();
+
+            if (lowerCaseInput.includes('hello') || lowerCaseInput.includes('hi')) {
+                return getRandomBotResponse('greeting');
+            } else if (lowerCaseInput.includes('thank') || lowerCaseInput.includes('appreciate')) {
+                return getRandomBotResponse('gratitude');
+            } else if (lowerCaseInput.includes('compliment') || lowerCaseInput.includes('you\'re amazing')) {
+                return getRandomBotResponse('compliments');
+            } else if (lowerCaseInput.includes('bad mood') || lowerCaseInput.includes('sad')) {
+                return getRandomBotResponse('badMood');
+            } else if (lowerCaseInput.includes('rant')) {
+                return getRandomBotResponse('rant');
+            } else {
+                return getRandomBotResponse('default');
+            }
+        }
+
+        function sendMessage() {
+            const userInput = document.getElementById('messageInput').value;
+            if (userInput.trim() !== '') {
+                displayUserMessage(userInput);
+                document.getElementById('messageInput').value = '';
+            }
+        }
+
+        // Initial bot message on page load
+        displayBotMessage("Hello! I'm Jp the bot, and I'm here to send you positive energy. 😊");
+
+        // Play background music
+        const backgroundMusic = document.getElementById('backgroundMusic');
+        backgroundMusic.play();
+    </script>
+</body>
+</html>
